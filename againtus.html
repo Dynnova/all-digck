@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SYSTEM BREACH DETECTED</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: #000;
+      color: #0f0;
+      font-family: 'Courier New', monospace;
+      text-align: center;
+      padding: 5%;
+      margin: 0;
+      overflow: hidden;
+      animation: backgroundPulse 4s infinite;
+      height: 100vh;
+    }
+
+    @keyframes backgroundPulse {
+      0% { background-color: #000; }
+      5% { background-color: #030; }
+      10% { background-color: #000; }
+      15% { background-color: #020; }
+      20% { background-color: #000; }
+      100% { background-color: #000; }
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .terminal {
+      border: 2px solid #0f0;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 15px #0f0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .terminal::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #0f0, transparent);
+      animation: scanline 2s linear infinite;
+    }
+
+    @keyframes scanline {
+      0% { top: 0; }
+      100% { top: 100%; }
+    }
+
+    .glitch {
+      position: relative;
+      animation: glitch 1s infinite;
+    }
+
+    @keyframes glitch {
+      0% { transform: translate(0px, 0px); text-shadow: 2px 0 #f00, -2px 0 #0ff; }
+      20% { transform: translate(-2px, 2px); text-shadow: -2px 0 #f00, 2px 0 #0ff; }
+      40% { transform: translate(2px, -2px); text-shadow: 2px 0 #f00, -2px 0 #0ff; }
+      60% { transform: translate(0px, 0px); text-shadow: -2px 0 #f00, 2px 0 #0ff; }
+      80% { transform: translate(2px, 2px); text-shadow: 2px 0 #f00, -2px 0 #0ff; }
+      100% { transform: translate(0px, 0px); text-shadow: 0 0 #f00, 0 0 #0ff; }
+    }
+
+    h1 {
+      font-size: 2.5em;
+      letter-spacing: 2px;
+      margin-bottom: 30px;
+    }
+
+    .hacker-signature {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      font-size: 1.2em;
+      color: #ff0000;
+      text-shadow: 0 0 5px #ff0000;
+      animation: flicker 2s infinite;
+      z-index: 1000;
+    }
+
+    @keyframes flicker {
+      0% { opacity: 1; }
+      49% { opacity: 1; }
+      50% { opacity: 0.8; }
+      52% { opacity: 1; }
+      87% { opacity: 1; }
+      88% { opacity: 0.8; }
+      90% { opacity: 1; }
+    }
+
+    #console {
+      font-family: 'Courier New', monospace;
+      text-align: left;
+      height: 200px;
+      overflow: hidden;
+      white-space: pre-wrap;
+      margin-bottom: 20px;
+      padding: 10px;
+      border: 1px solid #0f0;
+      background-color: rgba(0, 20, 0, 0.5);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 20px;
+      background-color: #111;
+      border: 1px solid #0f0;
+      margin: 15px 0;
+    }
+
+    .progress {
+      height: 100%;
+      width: 0%;
+      background-color: #0f0;
+      transition: width 0.5s;
+    }
+
+    input, button {
+      margin-top: 15px;
+      padding: 12px;
+      background: #111;
+      color: #0f0;
+      border: 1px solid #0f0;
+      font-family: 'Courier New', monospace;
+      width: 80%;
+      max-width: 400px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus, button:focus {
+      box-shadow: 0 0 10px #0f0;
+    }
+
+    button {
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #0f0;
+      color: #000;
+    }
+
+    #fakeClose {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: red;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      font-size: 16px;
+      z-index: 9999;
+      cursor: pointer;
+      border-radius: 5px;
+      font-weight: bold;
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    }
+
+    .matrix-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.1;
+    }
+
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.9);
+      border: 2px solid #ff0000;
+      padding: 20px;
+      z-index: 10000;
+      display: none;
+      box-shadow: 0 0 20px #ff0000;
+      max-width: 80%;
+    }
+
+    .popup h2 {
+      color: #ff0000;
+    }
+    
+    .webcam-container {
+      width: 320px;
+      height: 240px;
+      margin: 20px auto;
+      border: 2px solid #0f0;
+      position: relative;
+      overflow: hidden;
+      display: none;
+    }
+    
+    .webcam-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://img.freepik.com/free-photo/abstract-smoke-wallpaper-background-desktop_53876-143.jpg');
+      background-size: cover;
+      opacity: 0.7;
+    }
+    
+    .webcam-text {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      width: 100%;
+      color: #ff0000;
+      text-align: center;
+      font-size: 14px;
+      text-shadow: 0 0 5px #000;
+    }
+    
+    .flash {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      z-index: 9999;
+      display: none;
+    }
+    
+    .jumpscare {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      z-index: 10001;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    
+    .jumpscare img {
+      max-width: 80%;
+      max-height: 80%;
+    }
+    
+    .bigtext {
+      font-size: 72px;
+      color: red;
+      font-weight: bold;
+      text-shadow: 0 0 10px red;
+      animation: shake 0.5s infinite;
+    }
+
+    .warning-pulse {
+      animation: warningPulse 1s infinite;
+    }
+
+    @keyframes warningPulse {
+      0% { color: #ff0000; }
+      50% { color: #ff5500; }
+      100% { color: #ff0000; }
+    }
+    
+    #map {
+      width: 100%;
+      height: 200px;
+      background-color: #111;
+      margin: 20px 0;
+      background-image: url('https://raw.githubusercontent.com/dynnova/prank-assets/main/map.jpg');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      border: 1px solid #0f0;
+    }
+    
+    #map::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 255, 0, 0.2);
+    }
+    
+    #map::after {
+      content: "⨁";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #ff0000;
+      font-size: 40px;
+      animation: pulse 1s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.1); }
+      100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div class="matrix-bg" id="matrix"></div>
+  
+  <div class="hacker-signature">// dyn404 a.k.a dynnova //</div>
+  
+  <div class="container">
+    <div class="terminal">
+      <h1 class="glitch">SYSTEM BREACH DETECTED</h1>
+      
+      <div id="console">Initializing system scan...</div>
+      
+      <div class="progress-bar">
+        <div class="progress" id="scanProgress"></div>
+      </div>
+      
+      <p id="target" class="glitch">Establishing connection to target device...</p>
+      
+      <div id="map"></div>
+
+      <div id="form" style="display:none;">
+        <p class="warning-pulse">UNAUTHORIZED ACCESS DETECTED</p>
+        <p>Security protocol breach - verification required:</p>
+        <input type="text" id="fakeUser" placeholder="Device owner identification"><br>
+        <input type="password" id="fakePass" placeholder="Security override key"><br>
+        <button onclick="attemptFix()">INITIATE SYSTEM RECOVERY</button>
+      </div>
+    </div>
+  </div>
+
+  <button id="fakeClose">TERMINATE SESSION [X]</button>
+
+  <audio id="loudSound">
+    <source src="https://archive.org/download/you-are-an-idiot/you%20are%20an%20idiot.mp3" type="audio/mpeg">
+  </audio>
+  
+  <audio id="keyboardSound">
+    <source src="https://www.soundjay.com/mechanical/sounds/typewriter-1.mp3" type="audio/mpeg">
+  </audio>
+
+  <audio id="alarmSound">
+    <source src="https://www.soundjay.com/mechanical/sounds/alarm-1.mp3" type="audio/mpeg">
+  </audio>
+  
+  <audio id="screamSound">
+    <source src="https://www.soundjay.com/human/sounds/scream-01.mp3" type="audio/mpeg">
+  </audio>
+  
+  <div class="popup" id="hackPopup">
+    <h2 class="warning-pulse">SYSTEM COMPROMISED</h2>
+    <p>All security protocols have been bypassed by <strong>dyn404</strong></p>
+    <p>Device access: <span id="deviceType">GRANTED</span></p>
+    <p>Current location: <span id="locationInfo">TRACKED</span></p>
+    <p>Data extraction: <span id="dataStatus">IN PROGRESS</span></p>
+    
+    <div class="webcam-container" id="fakeWebcam">
+      <div class="webcam-overlay"></div>
+      <div class="webcam-text">WEBCAM ACTIVE - STREAMING TO PUBLIC SERVER</div>
+    </div>
+    
+    <p id="sensitiveFiles" style="color: yellow;"></p>
+    <p id="emailAccess" style="color: yellow;"></p>
+    <p id="messageAccess" style="color: yellow;"></p>
+    <button onclick="tryToEscape()">ATTEMPT RECOVERY</button>
+  </div>
+  
+  <div class="flash" id="screenFlash"></div>
+  
+  <div class="jumpscare" id="jumpscare">
+    <div class="bigtext">GOTCHA!</div>
+    <img src="https://media1.tenor.com/m/C1RL84zBsHwAAAAd/skull-skeleton.gif" alt="Jumpscare">
+    <div class="bigtext">dyn404 OWNS YOU</div>
+  </div>
+
+  <script>
+    // Matrix background effect
+    const matrix = document.getElementById('matrix');
+    const ctx = document.createElement('canvas').getContext('2d');
+    matrix.appendChild(ctx.canvas);
+    
+    ctx.canvas.width = window.innerWidth;
+    ctx.canvas.height = window.innerHeight;
+    
+    const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+    const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const nums = '0123456789';
+    const hacker = 'DYN404';
+    
+    const alphabet = katakana + latin + nums + hacker;
+    
+    const fontSize = 16;
+    const columns = ctx.canvas.width / fontSize;
+    
+    const drops = [];
+    for (let x = 0; x < columns; x++) {
+      drops[x] = 1;
+    }
+    
+    function draw() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      
+      ctx.fillStyle = '#0f0';
+      ctx.font = fontSize + 'px monospace';
+      
+      for (let i = 0; i < drops.length; i++) {
+        const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        
+        if (drops[i] * fontSize > ctx.canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        
+        drops[i]++;
+      }
+    }
+    
+    setInterval(draw, 33);
+
+    // Type text effect for console
+    function typeConsoleText(text) {
+      const consoleElement = document.getElementById('console');
+      const keyboardSound = document.getElementById('keyboardSound');
+      let i = 0;
+      let currentContent = consoleElement.innerHTML;
+      
+      const typing = setInterval(() => {
+        keyboardSound.currentTime = 0;
+        keyboardSound.play().catch(() => {});
+        
+        if (i < text.length) {
+          currentContent += text.charAt(i);
+          consoleElement.innerHTML = currentContent + "▋";
+          i++;
+        } else {
+          clearInterval(typing);
+          consoleElement.innerHTML = currentContent + "\n> ";
+        }
+      }, 50);
+    }
+    
+    // Force fullscreen
+    function requestFullScreen() {
+      const el = document.documentElement;
+      if (el.requestFullscreen) el.requestFullscreen();
+      else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+      else if (el.mozRequestFullScreen) el.mozRequestFullScreen();
+      else if (el.msRequestFullscreen) el.msRequestFullscreen();
+    }
+    
+    // Take fake screenshot
+    function takeScreenshot() {
+      const flash = document.getElementById('screenFlash');
+      flash.style.display = 'block';
+      
+      const screenshotSound = new Audio('https://www.soundjay.com/mechanical/sounds/camera-shutter-click-01.mp3');
+      screenshotSound.play().catch(() => {});
+      
+      setTimeout(() => {
+        flash.style.display = 'none';
+      }, 200);
+    }
+    
+    // Fake file access
+    function generateFakeFileNames() {
+      const personalFiles = [
+        "tax_returns_2023.pdf", 
+        "bank_statement_march.pdf",
+        "private_photos/", 
+        "passwords.txt",
+        "browser_history.db", 
+        "resume.docx",
+        "medical_records/", 
+        "credit_card_info.xlsx"
+      ];
+      
+      return personalFiles[Math.floor(Math.random() * personalFiles.length)] + ", " +
+             personalFiles[Math.floor(Math.random() * personalFiles.length)] + ", " +
+             personalFiles[Math.floor(Math.random() * personalFiles.length)];
+    }
+    
+    // Show jumpscare
+    function showJumpscare() {
+      const jumpscare = document.getElementById('jumpscare');
+      const scream = document.getElementById('screamSound');
+      
+      jumpscare.style.display = 'flex';
+      scream.play().catch(() => {});
+      
+      setTimeout(() => {
+        jumpscare.style.display = 'none';
+      }, 3000);
+    }
+
+    // Fake close button
+    document.getElementById("fakeClose").addEventListener("click", () => {
+      const sound = document.getElementById("loudSound");
+      sound.play().catch(() => {});
+      
+      document.getElementById('hackPopup').style.display = 'block';
+      
+      for (let i = 0; i < 3; i++) {
+        setTimeout(() => {
+          window.open(redirectLinks[Math.floor(Math.random() * redirectLinks.length)], "_blank");
+        }, i * 200);
+      }
+    });
+
+    // Try to escape button
+    function tryToEscape() {
+      alert("RECOVERY FAILED: System fully compromised by dyn404");
+      
+      // Simulate rapidly changing windows
+      for (let i = 0; i < 4; i++) {
+        setTimeout(() => {
+          window.open(redirectLinks[Math.floor(Math.random() * redirectLinks.length)], "_blank");
+        }, i * 300);
+      }
+      
+      // Text-to-speech if available
+      if ('speechSynthesis' in window) {
+        const speech = new SpeechSynthesisUtterance("Your device has been hacked by dyn four oh four");
+        speech.rate = 0.8;
+        speech.pitch = 0.5;
+        window.speechSynthesis.speak(speech);
+        
+        setTimeout(() => {
+          const speech2 = new SpeechSynthesisUtterance("All your files are being uploaded");
+          speech2.rate = 0.8;
+          window.speechSynthesis.speak(speech2);
+        }, 2000);
+      }
+      
+      // Vibration if available (works on mobile)
+      if ('vibrate' in navigator) {
+        navigator.vibrate([200, 100, 200, 100, 200, 100, 200]);
+      }
+      
+      // Show jumpscare
+      setTimeout(showJumpscare, 1000);
+    }
+
+    // Device identification
+    const deviceMap = {
+      "Mobile": ["iPhone", "Galaxy S", "Pixel", "Xiaomi", "OnePlus"],
+      "Desktop": ["Windows PC", "MacBook", "Linux System", "Chromebook", "Work Station"],
+      "Tablet": ["iPad", "Galaxy Tab", "Surface", "Fire Tablet", "Android Tablet"]
+    };
+    
+    function detectDevice() {
+      const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const tablet = /(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(navigator.userAgent.toLowerCase());
+      
+      if (tablet) return "Tablet";
+      if (mobile) return "Mobile";
+      return "Desktop";
+    }
+    
+    const deviceType = detectDevice();
+    const specificDevice = deviceMap[deviceType][Math.floor(Math.random() * deviceMap[deviceType].length)];
+    
+    // Simulated vulnerability assessment
+    const vulnerabilities = [
+      "Unpatched OS detected",
+      "Outdated security protocols",
+      "Firewall breach points identified",
+      "Webcam access: GRANTED",
+      "Microphone access: GRANTED",
+      "Personal files: ACCESSIBLE",
+      "Password database: DECRYPTING",
+      "Browser history: DOWNLOADING",
+      "Email accounts: COMPROMISED"
+    ];
+    
+    // Simulation of breach attempt
+    function simulateBreach() {
+      requestFullScreen();
+      
+      // Start progress bar
+      const progressBar = document.getElementById('scanProgress');
+      let progress = 0;
+      
+      const progressInterval = setInterval(() => {
+        progress += Math.random() * 5;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(progressInterval);
+          showBreachResults();
+        }
+        progressBar.style.width = progress + '%';
+      }, 200);
+      
+      // Show console activity
+      typeConsoleText(`$ initializing breach protocol...
+$ targeting ${deviceType} device ${specificDevice}
+$ scanning for vulnerabilities
+$ establishing secure connection
+$ bypassing security measures
+$ dyn404 core system engaged
+$ running exploit payload...`);
+    }
+    
+    function showBreachResults() {
+      document.getElementById("target").innerHTML = `
+        <strong>TARGET DEVICE:</strong> ${specificDevice}<br>
+        <strong>SECURITY STATUS:</strong> <span style="color:red;">COMPROMISED</span><br>
+        <strong>WEAKNESSES FOUND:</strong> ${vulnerabilities.length}<br>
+        <strong>ATTACKER ID:</strong> <span style="color:#ff0000;">dyn404</span>
+      `;
+      
+      typeConsoleText(`$ vulnerabilities detected:
+> ${vulnerabilities.slice(0, 4).join('\n> ')}
+$ initiating system takeover
+$ bypassing authentication
+$ root access: GRANTED
+$ dyn404 system integration: COMPLETE`);
+      
+      document.getElementById("form").style.display = "block";
+      
+      setTimeout(() => {
+        typeInInput(document.getElementById("fakeUser"), "user_" + Math.floor(Math.random() * 10000), 100, () => {
+          typeInInput(document.getElementById("fakePass"), "compromised_" + Math.floor(Math.random() * 100000), 100);
+        });
+      }, 2000);
+    }
+    
+    // Fake location data
+    function getRandomLocation() {
+      const cities = ["New York", "Tokyo", "London", "Berlin", "Sydney", "Moscow", "Beijing", "Rio de Janeiro"];
+      const randomLat = (Math.random() * 180 - 90).toFixed(6);
+      const randomLng = (Math.random() * 360 - 180).toFixed(6);
+      
+      return {
+        city: cities[Math.floor(Math.random() * cities.length)],
+        coords: `${randomLat}, ${randomLng}`
+      };
+    }
+    
+    const userLocation = getRandomLocation();
+    
+    // Type text into input fields
+    function typeInInput(el, text, delay = 100, callback) {
+      let i = 0;
+      const interval = setInterval(() => {
+        el.value += text[i];
+        i++;
+        if (i >= text.length) {
+          clearInterval(interval);
+          if (callback) callback();
+        }
+      }, delay);
+    }
+    
+    // Redirect links
+    const redirectLinks = [
+      "https://youareanidiot.cc/",
+      "https://pointerpointer.com/",
+      "https://corndog.io/",
+      "https://theuselessweb.com/",
+      "https://heeeeeeeey.com/",
+      "https://chrismckenzie.com/",
+      "https://koalastothemax.com/"
+    ];
+    
+    // Attempt fix button
+    function attemptFix() {
+      document.getElementById('hackPopup').style.display = 'block';
+      document.getElementById('deviceType').innerText = specificDevice;
+      document.getElementById('locationInfo').innerText = `${userLocation.city} (${userLocation.coords})`;
+      
+      const sound = document.getElementById("loudSound");
+      sound.play().catch(() => {});
+      
+      // Show fake webcam with delayed appearance
+      setTimeout(() => {
+        document.getElementById('fakeWebcam').style.display = 'block';
+        
+        // Take fake screenshots
+        takeScreenshot();
+        setTimeout(takeScreenshot, 2000);
+        setTimeout(takeScreenshot, 4000);
+        
+        // Show accessing personal information
+        setTimeout(() => {
+          document.getElementById('sensitiveFiles').innerHTML = "FILES ACCESSED: " + generateFakeFileNames();
+        }, 1000);
+        
+        setTimeout(() => {
+          document.getElementById('emailAccess').innerHTML = "EMAIL ACCOUNTS BREACHED: " + 
+            (navigator.userAgent.indexOf("Gmail") !== -1 ? "gmail" : "unknown") + 
+            "@" + (Math.random().toString(36).substring(2, 8)) + ".com";
+        }, 2000);
+        
+        setTimeout(() => {
+          document.getElementById('messageAccess').innerHTML = "EXTRACTING MESSAGES AND CONTACTS...";
+          
+          // Play alarm
+          const alarm = document.getElementById('alarmSound');
+          alarm.loop = true;
+          alarm.play().catch(() => {});
+          
+          // Show jumpscare after delay
+          setTimeout(showJumpscare, 3000);
+        }, 3000);
+      }, 1000);
+      
+      // Open random redirect
+      setTimeout(() => {
+        for (let i = 0; i < 2; i++) {
+          window.open(redirectLinks[Math.floor(Math.random() * redirectLinks.length)], "_blank");
+        }
+      }, 500);
+      
+      // Simulate posting
+      const socialPlatforms = ["Facebook", "Instagram", "Twitter", "TikTok"];
+      setTimeout(() => {
+        alert("STREAMING WEBCAM TO " + socialPlatforms[Math.floor(Math.random() * socialPlatforms.length)]);
+      }, 5000);
+    }
+    
+    // Auto-run the simulation
+    window.onload = function() {
+      setTimeout(simulateBreach, 1000);
+    };
+  </script>
+</body>
+</html>
